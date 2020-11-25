@@ -1,0 +1,13 @@
+server:
+  port: 12000
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 #配置nacos地址
+        #alicloud: #oss存储
+        #access-key: LTAI4GJctNnLnYM1KhQYZhct
+        #secret-key: Lm4Os1zNC5fWkaPVS1TWgRy15zv17O
+        #oss:
+        #endpoint: oss-cn-shanghai.aliyuncs.com

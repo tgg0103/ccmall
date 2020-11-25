@@ -1,0 +1,87 @@
+server:
+  port: 88
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 #配置nacos地址
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8719
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+feign:
+  sentinel:
+    enabled: true
+
+    gateway:
+      routes:
+        - id: baidu_route
+          uri: https://www.baidu.com
+          predicates:
+            - Query=url,baidu
+
+
+              #- Path=/payment/lb/**  #断言，路径相匹配的进行路由
+              #- After=2020-07-09T17:25:38.725+08:00[Asia/Shanghai]  #在这个时间之后才有效  before/between
+              #- Cookie=username,zzyy
+              #- Header=X-Request-Id, \d+  #请求头要有X-Request-Id属性并且值为整数的正则表达式
+              #- Host=**.tgg.com
+              #- Method=GET
+              #- Query=username, \d+ #要有参数名username并且值还要是整数才能路由
+
+        - id: qq_route
+          uri: https://www.qq.com
+          predicates:
+            - Query=url,qq
+        #商品产品服务系统
+        - id: product_route
+          uri: lb://ccmall-product-service
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #第三方服务
+        - id: third_party_route
+          uri: lb://ccmall-third-party-service
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty(?<segment>.*),/$\{segment}
+        - id: member_route
+          uri: lb://ccmall-member-service
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: ware_route
+          uri: lb://ccmall-ware-service
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #后台管理系统
+        - id: admin_route
+          uri: lb://renren-fast-service
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+
+        - id: ccmall_host_route
+          uri: lb://ccmall-product-service
+          predicates:
+            - Host=ccmall.com,item.ccmall.com
+
+        - id: ccmall_auth_route
+          uri: lb://ccmall-auth-service
+          predicates:
+            - Host=auth.ccmall.com
+
+

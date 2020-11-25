@@ -1,0 +1,37 @@
+server:
+  port: 25000
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 #\u914D\u7F6Enacos\u5730\u5740
+        #alicloud: #oss\u5B58\u50A8
+        #access-key: LTAI4GJctNnLnYM1KhQYZhct
+        #secret-key: Lm4Os1zNC5fWkaPVS1TWgRy15zv17O
+        #oss:
+        #endpoint: oss-cn-shanghai.aliyuncs.com
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8719
+  redis:
+    host: 192.168.150.132
+    port: 6379
+
+  #\u5F02\u6B65\u4EFB\u52A1\u7EBF\u7A0B\u6C60\u5927\u5C0F
+  task:
+    execution:
+      pool:
+        core-size: 20
+        max-size: 50
+  session:
+    store-type: redis
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+feign:
+  sentinel:
+    enabled: true

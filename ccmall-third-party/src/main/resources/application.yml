@@ -1,0 +1,20 @@
+server:
+  port: 30000
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 #配置nacos地址
+    alicloud: #oss存储
+      access-key: LTAI4GJctNnLnYM1KhQYZhct
+      secret-key: Lm4Os1zNC5fWkaPVS1TWgRy15zv17O
+      oss:
+        endpoint: oss-cn-shanghai.aliyuncs.com
+        bucket: ccmall-tgg
+
+      sms:
+        host: https://smssend.shumaidata.com
+        path: /sms/send
+        templateId: MF640EBE0E
+        appcode: 7566647a0f1246beb58a0dbdbc8fac30
